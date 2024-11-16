@@ -4,6 +4,8 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background-color: #EBD9CD;
+  color: #333; /* テキストカラーは必要に応じて調整してください */
 }
 
 @layer utilities {
@@ -75,4 +77,8 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.header, .footer, .button, .card, .postcard {
+  background-color: #EBD9CD;
 }

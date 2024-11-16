@@ -34,7 +34,7 @@ export default function PostCard({ onClose, onSubmit }: { onClose: () => void, o
           />
           <button
             type="submit"
-            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="mt-2 bg-[#EBD9CD] hover:bg-[#CBB8A8] text-black font-bold py-2 px-4 rounded"
           >
             投稿
           </button>
