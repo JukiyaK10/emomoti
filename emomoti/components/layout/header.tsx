@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 export default function Header({ onPostClick }: { onPostClick: () => void }) {
   return (
-    <header className="flex items-center justify-between p-4 bg-[#D6C4B8] text-black">
+    <header className="flex items-center justify-between p-4 bg-[#D6C4B8] text-black shadow-md">
       <div className="flex items-center gap-2">
         <span className="text-xl font-bold">eMOTI</span>
       </div>
