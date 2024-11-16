@@ -9,9 +9,15 @@ export default function PostCard({ onClose, onSubmit }: { onClose: () => void, o
     setContent("");
   };
 
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-4 rounded-md shadow-md">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" onClick={handleOverlayClick}>
+      <div className="relative bg-white p-6 rounded-md shadow-md w-3/4 max-w-lg">
         <button
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
           onClick={onClose}
@@ -21,7 +27,7 @@ export default function PostCard({ onClose, onSubmit }: { onClose: () => void, o
         <form onSubmit={handleSubmit}>
           <textarea
             className="w-full p-2 border rounded-md"
-            rows={4}
+            rows={6}
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="今何してる？"
