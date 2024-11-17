@@ -1,8 +1,14 @@
 "use client"
 
 import { Button } from "../ui/button";
+import { UserCircle } from "lucide-react";
 
-export default function Header({ onPostClick }: { onPostClick: () => void }) {
+interface HeaderProps {
+  onPostClick: () => void;
+  onUserClick: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onPostClick, onUserClick }) => {
   return (
     <header className="flex items-center justify-between p-4 bg-[#D6C4B8] text-black shadow-md">
       <div className="flex items-center gap-2">
@@ -15,7 +21,15 @@ export default function Header({ onPostClick }: { onPostClick: () => void }) {
         >
           つぶやく
         </Button>
+        <button
+          onClick={onUserClick}
+          className="p-2 hover:bg-gray-100 rounded-full"
+        >
+          <UserCircle size={24} />
+        </button>
       </nav>
     </header>
   );
-}
+};
+
+export default Header;

@@ -6,9 +6,11 @@ import PostCard from "../components/layout/postcard";
 import { Calendar } from "@/components/ui/calendar";
 import { getPosts, addPost, type Post } from "@/lib/postAdaptor";
 import React from "react";
+import UserProfile from "../components/layout/userprofile";
 
 export default function Home() {
   const [showPostCard, setShowPostCard] = useState(false);
+  const [showUserProfile, setShowUserProfile] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
@@ -21,6 +23,14 @@ export default function Home() {
 
   const handleClosePostCard = () => {
     setShowPostCard(false);
+  };
+
+  const handleUserClick = () => {
+    setShowUserProfile(true);
+  };
+
+  const handleCloseUserProfile = () => {
+    setShowUserProfile(false);
   };
 
   const handlePostSubmit = (content: string, emotions: Post['emotions']) => {
@@ -40,13 +50,46 @@ export default function Home() {
     );
   });
 
+  const handlePostFromUserProfile = () => {
+    handleCloseUserProfile();  // ユーザープロフィールを閉じる
+    handlePostClick();         // 投稿モーダルを開く
+  };
+
+  // 投稿がある日付を取得する関数
+  const getPostDates = () => {
+    const dates = posts.map(post => {
+      const date = new Date(post.createdAt);
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    });
+    return Array.from(new Set(dates.map(date => date.getTime())))
+      .map(time => new Date(time));
+  };
+
+  // 日付に投稿があるかチェックする関数
+  const hasPostsOnDate = (date: Date) => {
+    return getPostDates().some(postDate =>
+      postDate.getFullYear() === date.getFullYear() &&
+      postDate.getMonth() === date.getMonth() &&
+      postDate.getDate() === date.getDate()
+    );
+  };
+
   return (
     <div className="min-h-screen">
       <div className="fixed top-0 left-0 right-0 z-50">
-        <Header onPostClick={handlePostClick} />
+        <Header 
+          onPostClick={handlePostClick} 
+          onUserClick={handleUserClick}
+        />
       </div>
       <div className="pt-16"> {/* ヘッダーの高さ分のパディング */}
         {showPostCard && <PostCard onClose={handleClosePostCard} onSubmit={handlePostSubmit} />}
+        {showUserProfile && (
+          <UserProfile 
+            onClose={handleCloseUserProfile} 
+            onPostClick={handlePostFromUserProfile}
+          />
+        )}
         <div className="p-4 flex">
           <div className="flex-1">
             {filteredPosts.map((post, index) => (
@@ -78,6 +121,13 @@ export default function Home() {
               selected={date}
               onSelect={setDate}
               className="rounded-md border bg-white"
+              modifiers={{ hasPost: getPostDates() }}
+              modifiersStyles={{
+                hasPost: {
+                  backgroundColor: '#EBD9CD',
+                  fontWeight: 'bold'
+                }
+              }}
             />
             <button 
               onClick={() => setDate(undefined)}
